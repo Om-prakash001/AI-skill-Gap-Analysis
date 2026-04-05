@@ -4,10 +4,17 @@ import multer from "multer";
 const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype === "application/pdf") {
-    cb(null, true); // accept
-  } else {
-    cb(new Error("Only PDF files are accepted."), false); // reject
+ // Created a list of allowed file types (pdf, doc, docx)
+ const allowedMimeTypes = [
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+ ]
+  // Check the uploaded file type is on the list
+  if(allowedMimeTypes.includes(file.mimetype)){
+    cb(null, true); //accept.
+  } else{
+    cb(new Error("Only PDF and DOCx file are accepted."), false);// Reject
   }
 };
 
